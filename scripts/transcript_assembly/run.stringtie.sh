@@ -1,9 +1,8 @@
 #!/bin/bash
 
 export sp=$1
-export reference=$2
-export cluster=$3
-export nthreads=$4
+export cluster=$2
+export nthreads=$3
 
 #############################################################################
 
@@ -31,15 +30,11 @@ export pathScripts=${path}/scripts/transcript_assembly
 
 #############################################################################
 
-if [ ${reference} = "Ensembl" ]; then
-    export ensrelease=103
+export ensrelease=103
 
-    export gtffile=FilteredTranscripts_Ensembl${ensrelease}.gtf
+export gtffile=FilteredTranscripts_Ensembl${ensrelease}.gtf
 
-    export refpar="-G ${pathEnsembl}/${gtffile}"
-else
-    export refpar=""
-fi
+export refpar="-G ${pathEnsembl}/${gtffile}"
 
 #############################################################################
 

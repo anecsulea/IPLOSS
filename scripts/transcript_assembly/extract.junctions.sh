@@ -18,7 +18,7 @@ export ensrelease=103
 
 export pathAlignments=${path}/results/RNASeq_alignments/${sp}/${sample}
 export pathSequence=${path}/data/genome_indexes/${sp}/genome_ensembl${ensrelease}.fa
-export pathScripts=${path}/scripts/splicing_analysis
+export pathScripts=${path}/scripts/transcript_assembly
 
 ######################################################################################
 

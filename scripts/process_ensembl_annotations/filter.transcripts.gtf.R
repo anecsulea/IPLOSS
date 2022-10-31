@@ -11,10 +11,6 @@ maxlen=2500000
 for(sp in c("Chicken", "Duck")){
   pathAnnot=paste("../../data/ensembl_annotations/",sp, sep="")
 
-  ## readthrough transcripts
-
-  rt=read.table(paste(pathAnnot,  "/ReadthroughTranscripts_Ensembl",release, ".txt", sep=""), h=T, stringsAsFactors=F, sep="\t", quote="\"")
-
 #################################
 
   geneinfo=read.table(paste(pathAnnot,  "/GeneInfo_Ensembl",release,".txt",sep=""), h=T, stringsAsFactors=F, sep="\t", quote="\"")
@@ -49,9 +45,7 @@ for(sp in c("Chicken", "Duck")){
 
 #################################
 
-  print(paste(length(which(txinfo$tx%in%rt$TranscriptID)), " read-through transcripts"))
-
-  ok=which((txinfo$tx%in%oklen) & (!(txinfo$tx%in%rt$TranscriptID)) & (!txinfo$gene%in%weirdgenes) & (!txinfo$tx%in%monoexonic))
+  ok=which((txinfo$tx%in%oklen) & (!txinfo$gene%in%weirdgenes) & (!txinfo$tx%in%monoexonic))
 
   selected=txinfo[ok,2]
 

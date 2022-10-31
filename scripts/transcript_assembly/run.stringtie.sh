@@ -7,7 +7,7 @@ export nthreads=$4
 
 #############################################################################
 
-if [ ${cluster} = "pbil" ]; then
+if [ ${cluster} = "pbil" ]||[ ${cluster} = "pbillocal" ]; then
     export path=/beegfs/data/necsulea/IPLOSS
 else
     if [ ${cluster} = "cloud" ]; then
@@ -75,7 +75,7 @@ else
 	    sbatch ${pathScripts}/bsub_script_stringtie
 	fi
 
-	if [ ${cluster} = "cloud" ]; then
+	if [ ${cluster} = "cloud" ]||[ ${cluster} = "pbillocal" ]; then
 	    chmod a+x ${pathScripts}/bsub_script_stringtie
 	    ${pathScripts}/bsub_script_stringtie >& ${pathResults}/std_out_error_stringtie.txt
 	fi

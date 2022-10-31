@@ -10,7 +10,7 @@ if [ ${cluster} = "cloud" ]; then
     export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
-if [ ${cluster} = "pbil" ]; then
+if [ ${cluster} = "pbil" ]||[ ${cluster} = "pbillocal" ]; then
     export path=/beegfs/data/necsulea/IPLOSS
 fi
 
@@ -57,7 +57,7 @@ if [ ${cluster} = "cloud" ]; then
     ${pathScripts}/bsub_script_merge_${sp}
 fi
 
-if [ ${cluster} = "pbil" ]; then
+if [ ${cluster} = "pbil" ]||[ ${cluster} = "pbillocal" ]; then
     sbatch ${pathScripts}/bsub_script_merge_${sp}
 fi
 

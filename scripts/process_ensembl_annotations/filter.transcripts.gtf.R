@@ -49,7 +49,7 @@ for(sp in c("Chicken", "Duck")){
 
   selected=txinfo[ok,2]
 
-  print("We remove read-through transcripts, trans-splicing events, genes that are too long (>2.5Mb) and monoexonic transcripts - to be added later.")
+  print("We remove trans-splicing events, genes that are too long (>2.5Mb) and monoexonic transcripts - to be added later.")
   print(paste(length(selected), "selected transcripts"))
 
 #################################

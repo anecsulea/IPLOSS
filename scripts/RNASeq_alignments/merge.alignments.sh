@@ -41,7 +41,7 @@ fi
 
 echo -n "samtools merge --threads ${nthreads} -o ${pathResults}/selected_samples/accepted_hits.bam " >> ${pathScripts}/bsub_script_merge_${sp}
 
-for sample in `ls ${pathResults} | grep -v samples | grep -v _31_ | grep -v _32_ `
+for sample in `ls ${pathResults} | grep -v samples `
 do
     if [ -e ${pathResults}/${sample}/accepted_hits.bam ]; then
 	echo -n "${pathResults}/${sample}/accepted_hits.bam " >> ${pathScripts}/bsub_script_merge_${sp}

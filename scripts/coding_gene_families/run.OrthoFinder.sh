@@ -20,7 +20,7 @@ export pathScripts=${path}/scripts/coding_gene_families
 ##########################################################################
 
 ## OrthoFinder 2.5.4
-## IQ-TREE multicore version 2.0.7 for Linux 64-bit 
+## IQ-TREE multicore version 1.6.12 for Linux 64-bit 
 ## diamond version 2.0.5
 ## MUSCLE v3.8.1551
 

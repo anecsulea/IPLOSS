@@ -10,6 +10,11 @@ if [ ${cluster} = "cloud" ]; then
     export path=/home/ubuntu/data/mydatalocal/IPLOSS
 fi
 
+
+if [ ${cluster} = "pbil" ]; then
+    export path=/beegfs/data/necsulea/IPLOSS
+fi
+
 export pathAlignments=${path}/results/RNASeq_alignments/${sp}/${sample}
 export pathScripts=${path}/scripts/RNASeq_alignments
 

@@ -1,9 +1,7 @@
 #!/bin/bash
 
 export sp=$1
-export ref=$2
-export sample=$3
-export cluster=$4
+export cluster=$2
 
 ###################################################################################
 
@@ -11,8 +9,13 @@ if [ ${cluster} = "cloud" ]; then
     export path=/home/ubuntu/data/mydatalocal/IPLOSS
 fi
 
-export pathAlignments=${path}/results/RNASeq_alignments/${sp}/${sample}
-export pathResults=${path}/results/stringtie_assembly/${sp}/reference_${ref}_${sample}
+
+if [ ${cluster} = "pbil" ]||[ ${cluster} = "pbillocal" ]; then
+    export path=/beegfs/data/necsulea/IPLOSS
+fi
+
+export pathAlignments=${path}/results/RNASeq_alignments/${sp}/all_samples
+export pathResults=${path}/results/stringtie_assembly/${sp}/
 export pathScripts=${path}/scripts/transcript_assembly
 
 ###############################################################################
@@ -37,7 +40,7 @@ else
 	echo "perl ${pathScripts}/compute.transcript.coverage.pl --pathAnnotGTF=${pathGTF} --pathCoverageForward=${pathAlignments}/coverage_forward.bedGraph.gz --pathCoverageReverse=${pathAlignments}/coverage_reverse.bedGraph.gz --pathOutputExons=${pathResults}/coverage_sense_antisense/CoverageExons.txt --pathOutputTranscripts=${pathResults}/coverage_sense_antisense/CoverageTranscripts.txt"  >>  ${pathScripts}/bsub_script_coverage
 
 
-	if [ ${cluster} = "cloud" ]; then
+	if [ ${cluster} = "cloud" ]||[ ${cluster} = "pbillocal" ]; then
 	    chmod a+x ${pathScripts}/bsub_script_coverage
 	    ${pathScripts}/bsub_script_coverage
 	fi

@@ -11,7 +11,7 @@ if [ ${cluster} = "cloud" ]; then
 fi
 
 
-if [ ${cluster} = "pbil" ]; then
+if [ ${cluster} = "pbil" ]||[ ${cluster} = "pbillocal" ]; then
     export path=/beegfs/data/necsulea/IPLOSS
 fi
 
@@ -41,9 +41,13 @@ else
 
     echo "gzip ${pathAlignments}/coverage_reverse.bedGraph" >>  ${pathScripts}/bsub_script_coverage_${sp}
 
-    if [ ${cluster} = "cloud" ]; then
+    if [ ${cluster} = "cloud" ]||[ ${cluster} = "pbillocal" ]; then
 	chmod a+x ${pathScripts}/bsub_script_coverage_${sp}
 	${pathScripts}/bsub_script_coverage_${sp}
+    fi
+
+     if [ ${cluster} = "pbil" ]; then
+	 sbatch	${pathScripts}/bsub_script_coverage_${sp}
     fi
 fi
 

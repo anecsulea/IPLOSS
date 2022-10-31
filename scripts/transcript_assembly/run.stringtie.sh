@@ -21,8 +21,8 @@ fi
 #############################################################################
 
 export pathEnsembl=${path}/data/ensembl_annotations/${sp}
-export pathAlignments=${path}/results/RNASeq_alignments/${sp}/selected_samples
-export pathResults=${path}/results/stringtie_assembly/${sp}/reference_${reference}_selected_samples
+export pathAlignments=${path}/results/RNASeq_alignments/${sp}/all_samples
+export pathResults=${path}/results/stringtie_assembly/${sp}
 export pathScripts=${path}/scripts/transcript_assembly
 
 #############################################################################
@@ -69,7 +69,7 @@ else
 	    echo "#!/bin/bash" > ${pathScripts}/bsub_script_stringtie
 	fi
 
-    	echo "stringtie ${pathAlignments}/accepted_hits.bam ${refpar} -m 250 -a 10 -f 0.05 -p ${nthreads} -o ${pathResults}/assembled_transcripts.gtf -A ${pathResults}/gene_abundance.txt --rf">> ${pathScripts}/bsub_script_stringtie
+    	echo "stringtie ${pathAlignments}/accepted_hits.bam ${refpar} -m 250 -a 10 -f 0.05 -p ${nthreads} -o ${pathResults}/assembled_transcripts.gtf -A ${pathResults}/gene_abundance.txt --rf -c 5 -s 10 -M 0.5 -g 100 ">> ${pathScripts}/bsub_script_stringtie
 
 	if [ ${cluster} = "pbil" ]; then
 	    sbatch ${pathScripts}/bsub_script_stringtie

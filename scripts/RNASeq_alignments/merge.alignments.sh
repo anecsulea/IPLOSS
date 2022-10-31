@@ -52,12 +52,12 @@ echo "" >> ${pathScripts}/bsub_script_merge_${sp}
 
 #############################################################################
 
-if [ ${cluster} = "cloud" ]; then
+if [ ${cluster} = "cloud" ]||[ ${cluster} = "pbillocal" ]; then
     chmod a+x ${pathScripts}/bsub_script_merge_${sp}
     ${pathScripts}/bsub_script_merge_${sp}
 fi
 
-if [ ${cluster} = "pbil" ]||[ ${cluster} = "pbillocal" ]; then
+if [ ${cluster} = "pbil" ]; then
     sbatch ${pathScripts}/bsub_script_merge_${sp}
 fi
 

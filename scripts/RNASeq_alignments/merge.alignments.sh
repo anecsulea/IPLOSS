@@ -19,10 +19,10 @@ export pathScripts=${path}/scripts/RNASeq_alignments
 
 #############################################################################
 
-if [ -e ${pathResults}/selected_samples ]; then
+if [ -e ${pathResults}/all_samples ]; then
     echo "output dir exists"
 else
-    mkdir -p ${pathResults}/selected_samples
+    mkdir -p ${pathResults}/all_samples
 fi
 
 #############################################################################
@@ -39,7 +39,7 @@ if [ ${cluster} = "pbil" ]; then
     echo "#SBATCH --mem=4G" >> ${pathScripts}/bsub_script_merge_${sp}
 fi
 
-echo -n "samtools merge --threads ${nthreads} -o ${pathResults}/selected_samples/accepted_hits.bam " >> ${pathScripts}/bsub_script_merge_${sp}
+echo -n "samtools merge --threads ${nthreads} -o ${pathResults}/all_samples/accepted_hits.bam " >> ${pathScripts}/bsub_script_merge_${sp}
 
 for sample in `ls ${pathResults} | grep -v samples `
 do

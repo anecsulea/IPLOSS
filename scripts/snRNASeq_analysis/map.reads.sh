@@ -21,7 +21,7 @@ fi
 
 export pathRawData=${path}/data/single_cell_data/rawData
 export pathResults=${path}/results/snRNASeq_analysis/${sp}/${annot}
-export pathIndex=${path}/results/snRNA_indexes/${sp}/${annot}
+export pathIndex=${path}/results/snRNASeq_indexes/${sp}/${annot}
 
 ## cell ranger version 7.0.1
 

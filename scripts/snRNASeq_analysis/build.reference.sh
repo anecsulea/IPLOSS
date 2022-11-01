@@ -24,7 +24,7 @@ fi
 export pathGenome=${path}/data/genome_sequences/${sp}
 export pathEnsembl=${path}/data/ensembl_annotations/${sp}
 export pathStringTie=${path}/results/stringtie_assembly/${sp}
-export pathIndexes=${path}/results/snRNA_indexes/${sp}
+export pathIndexes=${path}/results/snRNASeq_indexes/${sp}
 
 export release=103
 

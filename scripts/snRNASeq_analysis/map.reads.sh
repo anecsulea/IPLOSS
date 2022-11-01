@@ -4,9 +4,10 @@
 
 export sp=$1
 export sample=$2
-export annot=$3
-export cluster=$4
-export nthreads=$5
+export lensuffix=$3 
+export annot=$4
+export cluster=$5
+export nthreads=$6
 
 ####################################################################################
 
@@ -42,7 +43,7 @@ do
     export pathFastQs=${pathRawData}/${dir},${pathFastQs}
    
     export filename=`ls ${pathRawData}/${dir} | grep I1 | grep fastq.gz`
-    export suffix=${filename: -25}
+    export suffix=${filename: -${lensuffix}} ## length of suffix, eg 24 for _S1_L001_I1_001.fastq.gz, 25 otherwise
     export prefix=`basename ${filename} ${suffix}`
     echo ${prefix} ${suffix}
     export samples=${prefix},${samples}

@@ -41,6 +41,6 @@ fi
 
 ##############################################################
 
-perl ${pathScripts}/extract.cDNA.sequences.pl --pathAnnotGTF=${pathGTF}/${suffix}.gtf --forbiddenChromo=MT --pathGeneInfo=${pathEnsembl}/GeneInfo_Ensembl${release}.txt --forbiddenBiotypes=Mt_rRNA,rRNA,rRNA_pseudogene --pathGenomeSequence=${pathGenome}/genome_ensembl${release}.fa --pathOutput=${pathGTF}/${suffix}_noMT_norRNA.fa
+perl ${pathScripts}/extract.cDNA.sequences.pl --pathAnnotGTF=${pathGTF}/${suffix}.gtf --forbiddenChromo=NA --pathGeneInfo=${pathEnsembl}/GeneInfo_Ensembl${release}.txt --forbiddenBiotypes=Mt_rRNA,rRNA,rRNA_pseudogene --pathGenomeSequence=${pathGenome}/genome_ensembl${release}.fa --pathOutput=${pathGTF}/${suffix}_norRNA.fa
    
 ###############################################################

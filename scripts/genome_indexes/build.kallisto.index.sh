@@ -27,12 +27,12 @@ export release=103
 ####################################################################################
 
 if [ ${source} = "Ensembl" ]; then
-    export pathFasta=${pathEnsembl}/AllTranscripts_Ensembl${release}_noMT_norRNA.fa
+    export pathFasta=${pathEnsembl}/AllTranscripts_Ensembl${release}_norRNA.fa
     export prefix=AllTranscripts_Ensembl${release}
 fi
 
 if [ ${source} = "EnsemblStringTie" ]; then
-    export pathFasta=${pathStringTie}/combined_annotations_StringTie_Ensembl_noMT_norRNA.fa
+    export pathFasta=${pathStringTie}/combined_annotations_StringTie_Ensembl_norRNA.fa
     export prefix=EnsemblStringTie
 fi
 

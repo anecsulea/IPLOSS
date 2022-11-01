@@ -2,9 +2,10 @@
 
 ## adapted from script by Menghan Wang
 
-export species=$1
+export sp=$1
 export annot=$2
 export cluster=$3
+export nthreads=$4
 
 ####################################################################################
 
@@ -51,6 +52,8 @@ fi
 
 ####################################################################################
 
-cellranger mkref --genome=${pathIndexes}/${annot}  --fasta=${pathGenome}/genome_ensembl${release}.fa --genes=${pathGTF}
+cd ${pathIndexes}
+
+cellranger mkref --genome=${annot}  --fasta=${pathGenome}/genome_ensembl${release}.fa --genes=${pathGTF} --nthreads=${nthreads}
 
 ########################################################################

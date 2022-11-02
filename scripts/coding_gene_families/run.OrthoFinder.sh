@@ -1,8 +1,10 @@
 #!/bin/bash
 
-export type=$1  ## tree inference method
-export cluster=$2
-export threads=$3
+export M=$1
+export alnmethod=$2
+export treemethod=$3  ## tree inference method
+export cluster=$4
+export threads=$5
 
 ##########################################################################
 
@@ -23,6 +25,7 @@ export pathScripts=${path}/scripts/coding_gene_families
 ## IQ-TREE multicore version 1.6.12 for Linux 64-bit 
 ## diamond version 2.0.5
 ## MUSCLE v3.8.1551
+## MAFFT 7.490
 
 ##########################################################################
 
@@ -37,7 +40,7 @@ echo "#!/bin/bash" > ${pathScripts}/bsub_script_orthofinder
 ##########################################################################
 
 if [ ${cluster} = "pbil" ]; then
-    echo "#SBATCH --job-name=orthofinder_${type}" >>  ${pathScripts}/bsub_script_orthofinder
+    echo "#SBATCH --job-name=orthofinder_${M}_${alnmethod}_${treemethod}" >>  ${pathScripts}/bsub_script_orthofinder
     echo "#SBATCH --output=${pathScripts}/std_output_orthofinder.txt" >>  ${pathScripts}/bsub_script_orthofinder
     echo "#SBATCH --error=${pathScripts}/std_error_orthofinder.txt" >> ${pathScripts}/bsub_script_orthofinder
     echo "#SBATCH --partition=normal" >> ${pathScripts}/bsub_script_orthofinder
@@ -48,7 +51,13 @@ fi
     
 ##########################################################################
 
-echo "orthofinder -f ${pathResults} -o ${pathResults}/${type} -t ${threads} -a ${threads} -I 2 -S diamond -A muscle -M msa -y -T ${type}" >>  ${pathScripts}/bsub_script_orthofinder
+if [ ${M} = "msa" ]; then
+    echo "orthofinder -f ${pathResults} -o ${pathResults}/${M}_${alnmethod}_${treemethod} -t ${threads} -a ${threads} -I 2 -S diamond -A ${alnmethod} -M ${M} -y -T ${treemethod}" >>  ${pathScripts}/bsub_script_orthofinder
+fi
+
+if [ ${M} = "dendroblast" ]; then
+    echo "orthofinder -f ${pathResults} -o ${pathResults}/${M} -t ${threads} -a ${threads} -I 2 -S diamond -M ${M} -y " >>  ${pathScripts}/bsub_script_orthofinder
+fi
 
 ##########################################################################
 

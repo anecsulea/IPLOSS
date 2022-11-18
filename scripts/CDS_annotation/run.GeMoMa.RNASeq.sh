@@ -33,23 +33,27 @@ export release=103
 
 export pathAllGenomes=${path}/data/genome_sequences
 export pathGenomeSequence=${path}/data/genome_sequences/${target}/
-export pathSourceGenomes=${path}/data/genome_sequences/${source}
+
 
 if [ ${source} = "Reptiles_Ensembl103" ]; then
     export pathSourceAnnotations=${path}/data/ensembl_annotations/${source}
+    export pathSourceGenomes=${path}/data/genome_sequences/${source}
 fi
 
 if [ ${source} = "NCBI" ]; then
     export pathSourceAnnotations=${path}/data/NCBI_annotations
+    export pathSourceGenomes=${path}/data/genome_sequences/${source}
 fi
 
 
 if [ ${source} = "Reptiles_Ensembl103_parts" ]; then
-    export pathSourceAnnotations=${path}/data/ensembl_annotations/${source}/parts
+    export pathSourceAnnotations=${path}/data/ensembl_annotations/Reptiles_Ensembl103/parts
+    export pathSourceGenomes=${path}/data/genome_sequences/Reptiles_Ensembl103
 fi
 
 if [ ${source} = "NCBI_parts" ]; then
     export pathSourceAnnotations=${path}/data/NCBI_annotations/parts
+    export pathSourceGenomes=${path}/data/genome_sequences/NCBI
 fi
 
 
@@ -57,14 +61,6 @@ export pathResults=${path}/results/CDS_annotation/${target}/GeMoMa
 export pathScripts=${path}/scripts/CDS_annotation
 
 ## in2p3 MMseqs2 Version: 9cc89aa594131293b8bc2e7a121e2ed412f0b931
-
-#########################################################################
-
-if [ -e ${pathResults}/${ref} ]; then
-    echo "results dir already there"
-else
-    mkdir -p ${pathResults}/${ref}
-fi
 
 #########################################################################
 
@@ -112,6 +108,14 @@ echo "reference annotation" ${pathRefAnnot}
 
 #########################################################################
 
+if [ -e ${pathResults}/${outdir} ]; then
+    echo "results dir already there"
+else
+    mkdir -p ${pathResults}/${outdir}
+fi
+
+#########################################################################
+
 if [ -e ${pathResults}/${ref}/final_annotation.gff ]; then
     echo "already done"
 else
@@ -121,8 +125,8 @@ else
 
     if [ ${cluster} = "pbil" ]; then
 	echo "#SBATCH --job-name=gemoma_${ref}" >>  ${pathScripts}/bsub_script_gemoma
-	echo "#SBATCH --output=${pathScripts}/std_output_GEMOMA_${ref}_${target}.txt" >>  ${pathScripts}/bsub_script_gemoma
-	echo "#SBATCH --error=${pathScripts}/std_error_GEMOMA_${ref}_${target}.txt" >> ${pathScripts}/bsub_script_gemoma
+	echo "#SBATCH --output=${pathScripts}/std_output_GEMOMA_${ref}_${target}_part${part}.txt" >>  ${pathScripts}/bsub_script_gemoma
+	echo "#SBATCH --error=${pathScripts}/std_error_GEMOMA_${ref}_${target}_part${part}.txt" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --partition=normal" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --mem=12G" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --cpus-per-task=${threads}" >> ${pathScripts}/bsub_script_gemoma
@@ -137,8 +141,8 @@ else
 
     if [ ${cluster} = "in2p3" ]; then
 	echo "#SBATCH --job-name=gemoma_${ref}" >>  ${pathScripts}/bsub_script_gemoma
-	echo "#SBATCH --output=${pathScripts}/std_output_GEMOMA_${ref}_${target}.txt" >>  ${pathScripts}/bsub_script_gemoma
-	echo "#SBATCH --error=${pathScripts}/std_error_GEMOMA_${ref}_${target}.txt" >> ${pathScripts}/bsub_script_gemoma
+	echo "#SBATCH --output=${pathScripts}/std_output_GEMOMA_${ref}_${target}_part${part}.txt" >>  ${pathScripts}/bsub_script_gemoma
+	echo "#SBATCH --error=${pathScripts}/std_error_GEMOMA_${ref}_${target}_part${part}.txt" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --ntasks=1" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --cpus-per-task=${threads}" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --time=7-00:00:00" >> ${pathScripts}/bsub_script_gemoma

@@ -5,6 +5,7 @@ export ref=$2
 export source=$3
 export cluster=$4
 export threads=$5
+export part=$6
 
 #########################################################################
 
@@ -41,6 +42,16 @@ fi
 if [ ${source} = "NCBI" ]; then
     export pathSourceAnnotations=${path}/data/NCBI_annotations
 fi
+
+
+if [ ${source} = "Reptiles_Ensembl103_parts" ]; then
+    export pathSourceAnnotations=${path}/data/ensembl_annotations/${source}/parts
+fi
+
+if [ ${source} = "NCBI_parts" ]; then
+    export pathSourceAnnotations=${path}/data/NCBI_annotations/parts
+fi
+
 
 export pathResults=${path}/results/CDS_annotation/${target}/GeMoMa
 export pathScripts=${path}/scripts/CDS_annotation
@@ -84,8 +95,18 @@ echo "reference genome" ${pathRefGenome}
 
 #########################################################################
 
-export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep gff`
-export pathRefAnnot=${pathSourceAnnotations}/${annotfile}
+if [ ${source} = "Reptiles_Ensembl103" ]||[ ${source} = "NCBI" ]; then
+    export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep gff`
+    export pathRefAnnot=${pathSourceAnnotations}/${annotfile}
+    export outdir=${ref}
+fi
+
+
+if [ ${source} = "Reptiles_Ensembl103_parts" ]||[ ${source} = "NCBI_parts" ]; then
+    export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep part${part}.gff`
+    export pathRefAnnot=${pathSourceAnnotations}/${annotfile}
+    export outdir=${ref}_part${part}
+fi
 
 echo "reference annotation" ${pathRefAnnot}
 
@@ -107,11 +128,10 @@ else
 	echo "#SBATCH --cpus-per-task=${threads}" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --time=24:00:00" >> ${pathScripts}/bsub_script_gemoma
 
-	echo "singularity exec -B ${path} -B ${pathTools} ${pathTools}/basic_ubuntu.simg java -jar ${pathTools}/GeMoMa/GeMoMa-${version}.jar CLI GeMoMaPipeline threads=${threads} outdir=${pathResults}/${ref} GeMoMa.Score=ReAlign AnnotationFinalizer.r=NO o=true t=${pathTargetGenome} i=${ref} a=${pathRefAnnot}  g=${pathRefGenome} GeMoMa.m=500000 Extractor.f=false GeMoMa.i=10 m=${pathTools}/mmseqs/bin/ r=EXTRACTED introns=${pathResults}/introns.gff coverage=STRANDED coverage_forward=${pathResults}/coverage_forward.bedgraph coverage_reverse=${pathResults}/coverage_reverse.bedgraph " >> ${pathScripts}/bsub_script_gemoma
+	echo "singularity exec -B ${path} -B ${pathTools} ${pathTools}/basic_ubuntu.simg java -jar ${pathTools}/GeMoMa/GeMoMa-${version}.jar CLI GeMoMaPipeline threads=${threads} outdir=${pathResults}/${outdir} GeMoMa.Score=ReAlign AnnotationFinalizer.r=NO o=true t=${pathTargetGenome} i=${ref} a=${pathRefAnnot}  g=${pathRefGenome} GeMoMa.m=500000 Extractor.f=false GeMoMa.i=10 m=${pathTools}/mmseqs/bin/ r=EXTRACTED introns=${pathResults}/introns.gff coverage=STRANDED coverage_forward=${pathResults}/coverage_forward.bedgraph coverage_reverse=${pathResults}/coverage_reverse.bedgraph " >> ${pathScripts}/bsub_script_gemoma
 
 	sbatch ${pathScripts}/bsub_script_gemoma
     fi
-
 
     #############################################
 
@@ -123,7 +143,7 @@ else
 	echo "#SBATCH --cpus-per-task=${threads}" >> ${pathScripts}/bsub_script_gemoma
 	echo "#SBATCH --time=7-00:00:00" >> ${pathScripts}/bsub_script_gemoma
 
-	echo "java -Xms2G -Xmx64G  -jar ${pathTools}/GeMoMa/GeMoMa-${version}.jar CLI GeMoMaPipeline threads=${threads} outdir=${pathResults}/${ref} GeMoMa.Score=ReAlign AnnotationFinalizer.r=NO o=true t=${pathTargetGenome} i=${ref} a=${pathRefAnnot}  g=${pathRefGenome} GeMoMa.m=500000 Extractor.f=false GeMoMa.i=10 m=${pathTools}/mmseqs/bin/ r=EXTRACTED introns=${pathResults}/introns.gff coverage=STRANDED coverage_forward=${pathResults}/coverage_forward.bedgraph coverage_reverse=${pathResults}/coverage_reverse.bedgraph " >> ${pathScripts}/bsub_script_gemoma
+	echo "java -Xms2G -Xmx64G  -jar ${pathTools}/GeMoMa/GeMoMa-${version}.jar CLI GeMoMaPipeline threads=${threads} outdir=${pathResults}/${outdir} GeMoMa.Score=ReAlign AnnotationFinalizer.r=NO o=true t=${pathTargetGenome} i=${ref} a=${pathRefAnnot}  g=${pathRefGenome} GeMoMa.m=500000 Extractor.f=false GeMoMa.i=10 m=${pathTools}/mmseqs/bin/ r=EXTRACTED introns=${pathResults}/introns.gff coverage=STRANDED coverage_forward=${pathResults}/coverage_forward.bedgraph coverage_reverse=${pathResults}/coverage_reverse.bedgraph " >> ${pathScripts}/bsub_script_gemoma
 
 	sbatch ${pathScripts}/bsub_script_gemoma
     fi
@@ -132,7 +152,7 @@ else
     #############################################
 
     if [ ${cluster} = "cloud" ]; then
-	echo "java  -Xms2G -Xmx64G -jar ${pathTools}/GeMoMa/GeMoMa-${version}.jar CLI GeMoMaPipeline threads=${threads} outdir=${pathResults}/${ref} GeMoMa.Score=ReAlign AnnotationFinalizer.r=NO o=true t=${pathTargetGenome} i=${ref} a=${pathRefAnnot}  g=${pathRefGenome} GeMoMa.m=500000 Extractor.f=false GeMoMa.i=10  r=EXTRACTED introns=${pathResults}/introns.gff coverage=STRANDED coverage_forward=${pathResults}/coverage_forward.bedgraph coverage_reverse=${pathResults}/coverage_reverse.bedgraph " >> ${pathScripts}/bsub_script_gemoma
+	echo "java  -Xms2G -Xmx64G -jar ${pathTools}/GeMoMa/GeMoMa-${version}.jar CLI GeMoMaPipeline threads=${threads} outdir=${pathResults}/${outdir} GeMoMa.Score=ReAlign AnnotationFinalizer.r=NO o=true t=${pathTargetGenome} i=${ref} a=${pathRefAnnot}  g=${pathRefGenome} GeMoMa.m=500000 Extractor.f=false GeMoMa.i=10  r=EXTRACTED introns=${pathResults}/introns.gff coverage=STRANDED coverage_forward=${pathResults}/coverage_forward.bedgraph coverage_reverse=${pathResults}/coverage_reverse.bedgraph " >> ${pathScripts}/bsub_script_gemoma
 
 	chmod a+x ${pathScripts}/bsub_script_gemoma
 	${pathScripts}/bsub_script_gemoma

@@ -116,7 +116,7 @@ fi
 
 #########################################################################
 
-if [ -e ${pathResults}/${ref}/final_annotation.gff ]; then
+if [ -e ${pathResults}/${outdir}/final_annotation.gff ]; then
     echo "already done"
 else
     echo "#!/bin/bash" > ${pathScripts}/bsub_script_gemoma

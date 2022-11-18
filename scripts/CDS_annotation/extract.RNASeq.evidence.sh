@@ -23,10 +23,7 @@ if [ ${cluster} = "cloud" ]; then
     export version=1.9
 fi
 
-export release=103
 
-export pathAllGenomes=${path}/data/genome_sequences
-export pathGenomeSequence=${path}/data/genome_sequences/${target}/genome_ensembl${release}.fa
 export pathRNASeq=${path}/results/RNASeq_alignments/${target}/all_samples
 export pathResults=${path}/results/CDS_annotation/${target}/GeMoMa
 export pathScripts=${path}/scripts/CDS_annotation

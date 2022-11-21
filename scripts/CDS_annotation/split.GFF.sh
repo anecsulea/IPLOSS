@@ -15,7 +15,7 @@ if [ ${cluster} = "in2p3" ]; then
 fi
 
 if [ ${cluster} = "cloud" ]; then
-    export path=/mnt/mydatalocal/IPLOSS
+    export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
 #########################################################################

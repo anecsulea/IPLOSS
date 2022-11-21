@@ -106,6 +106,13 @@ fi
 
 echo "reference annotation" ${pathRefAnnot}
 
+if [ -e ${pathRefAnnot} ]; then
+    echo "ok, path annotation exists"
+else
+    echo "cannot find reference annotation"
+    exit
+fi
+
 #########################################################################
 
 if [ -e ${pathResults}/${outdir} ]; then

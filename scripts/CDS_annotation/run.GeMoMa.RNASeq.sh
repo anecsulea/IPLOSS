@@ -61,16 +61,28 @@ export pathResults=${path}/results/CDS_annotation/${target}/GeMoMa
 export pathScripts=${path}/scripts/CDS_annotation
 
 ## in2p3 MMseqs2 Version: 9cc89aa594131293b8bc2e7a121e2ed412f0b931
+## cloud MMseqs2 version: 13-45111+ds-2
 
 #########################################################################
 
-if [ -e ${pathGenomeSequence}/genome_ensembl${release}.clean.fa ]; then
-    echo "clean target genome sequence already there"
+if [ ${target} = "Chicken" ]; then
+    export genomeprefix=genome_ensembl${release}
 else
-    perl ${pathScripts}/cleanup.fasta.names.pl --pathInput=${pathGenomeSequence}/genome_ensembl${release}.fa --pathOutput=${pathGenomeSequence}/genome_ensembl${release}.clean.fa 
+    if [ ${target} = "Duck" ]; then
+	export genomeprefix=genome_ensembl${release}_primary_assembly
+    else
+	echo "don't know what to do for this species!"
+	exit
+    fi
 fi
 
-export pathTargetGenome=${pathGenomeSequence}/genome_ensembl${release}.clean.fa
+if [ -e ${pathGenomeSequence}/${genomeprefix}.clean.fa ]; then
+    echo "clean target genome sequence already there"
+else
+    perl ${pathScripts}/cleanup.fasta.names.pl --pathInput=${pathGenomeSequence}/${genomeprefix}.fa --pathOutput=${pathGenomeSequence}/${genomeprefix}.clean.fa 
+fi
+
+export pathTargetGenome=${pathGenomeSequence}/${genomeprefix}.clean.fa
 
 echo "target genome" ${pathTargetGenome}
 
@@ -93,6 +105,12 @@ echo "reference genome" ${pathRefGenome}
 
 if [ ${source} = "Reptiles_Ensembl103" ]||[ ${source} = "NCBI" ]; then
     export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep gff`
+
+    if [ -z ${annotfile} ]; then
+	echo "cannot find reference annotation"
+	exit
+    fi
+    
     export pathRefAnnot=${pathSourceAnnotations}/${annotfile}
     export outdir=${ref}
 fi
@@ -100,18 +118,17 @@ fi
 
 if [ ${source} = "Reptiles_Ensembl103_parts" ]||[ ${source} = "NCBI_parts" ]; then
     export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep part${part}.gff`
+
+    if [ -z ${annotfile} ]; then
+	echo "cannot find reference annotation"
+	exit
+    fi
+	
     export pathRefAnnot=${pathSourceAnnotations}/${annotfile}
     export outdir=${ref}_part${part}
 fi
 
 echo "reference annotation" ${pathRefAnnot}
-
-if [ -e ${pathRefAnnot} ]; then
-    echo "ok, path annotation exists"
-else
-    echo "cannot find reference annotation"
-    exit
-fi
 
 #########################################################################
 

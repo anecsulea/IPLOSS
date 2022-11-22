@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## original script by Alexandre Laverré & Anamaria Necsulea
+
 export cluster=$1
 export nthreads=$2
 

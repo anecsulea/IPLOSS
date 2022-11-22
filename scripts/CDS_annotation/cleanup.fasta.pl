@@ -9,7 +9,7 @@ sub printHelp{
     my $parvalues=$_[1];
     
     print "\n";
-    print "This script modifies sequence names to remove spaces.\n";
+    print "This script modifies sequence names to remove spaces and replaces ambiguous nucleotides with Ns.\n";
     print "\n";
     
     print "Options:\n";
@@ -100,6 +100,9 @@ while($line){
 	my @s=split(" ", $line);
 	print $output $s[0]."\n";
     } else{
+	## replace ambiguous nucleotides
+	$line =~ tr/K|R|M|W|Y|k|r|m|w|y|/N/;
+	
 	print $output $line;
     }
     

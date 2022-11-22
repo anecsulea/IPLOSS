@@ -65,21 +65,12 @@ export pathScripts=${path}/scripts/CDS_annotation
 
 #########################################################################
 
-if [ ${target} = "Chicken" ]; then
-    export genomeprefix=genome_ensembl${release}
-else
-    if [ ${target} = "Duck" ]; then
-	export genomeprefix=genome_ensembl${release}_primary_assembly
-    else
-	echo "don't know what to do for this species!"
-	exit
-    fi
-fi
+export genomeprefix=genome_ensembl${release}
 
 if [ -e ${pathGenomeSequence}/${genomeprefix}.clean.fa ]; then
     echo "clean target genome sequence already there"
 else
-    perl ${pathScripts}/cleanup.fasta.names.pl --pathInput=${pathGenomeSequence}/${genomeprefix}.fa --pathOutput=${pathGenomeSequence}/${genomeprefix}.clean.fa 
+    perl ${pathScripts}/cleanup.fasta.pl --pathInput=${pathGenomeSequence}/${genomeprefix}.fa --pathOutput=${pathGenomeSequence}/${genomeprefix}.clean.fa 
 fi
 
 export pathTargetGenome=${pathGenomeSequence}/${genomeprefix}.clean.fa

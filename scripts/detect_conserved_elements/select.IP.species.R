@@ -26,3 +26,17 @@ tree.withIP=keep.tip(tree, withIP)
 write.tree(tree.withIP, paste(pathResults, "species_with_IP/tree.txt",sep=""))
 
 ###############################################################
+
+withIP.stringent=c("Chauna_torquata", "Anser_cygnoid", "Cairina_moschata", "Asarcornis_scutulata", "Anas_zonorhyncha", "Anas_platyrhynchos", "Anas_platyrhynchos_platyrhynchos", "Anseranas_semipalmata", "Pauxi_pauxi", "Penelope_pileata", "Casuarius_casuarius", "Dromaius_novaehollandiae",  "Rhea_americana", "Rhea_pennata", "Struthio_camelus")
+
+###############################################################
+
+print(paste(withIP.stringent, collapse=","))
+
+###############################################################
+
+tree.withIP.stringent=keep.tip(tree, withIP.stringent)
+
+write.tree(tree.withIP.stringent, paste(pathResults, "species_with_IP_stringent/tree.txt",sep=""))
+
+###############################################################

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export cluster=$1
+export nthreads=$2
 
 #########################################################################
 
@@ -17,6 +18,6 @@ export targetGenomes="Chauna_torquata,Anser_cygnoid,Cairina_moschata,Asarcornis_
 
 #########################################################################
 
-docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --numProc 12 --noDupes --splitBySequence --smallSize 100000
+docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
 
 #########################################################################

@@ -18,6 +18,14 @@ export pathResults=${path}/results/conserved_elements/${dataset}/4d/
 
 ######################################################################
 
+if [ -e ${pathResults} ]; then
+    echo "path results exists"
+else
+    mkdir -p ${pathResults}
+fi
+
+######################################################################
+
 export alnprefix="aln" ## alignment file name
 export annotprefix="AllTranscripts_Ensembl103.CDS" ## CDS coordinates for reference species
 

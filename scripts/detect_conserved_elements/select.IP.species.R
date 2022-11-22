@@ -1,6 +1,6 @@
 ###############################################################
 
-pathResults="../../results/whole_genome_alignments/avian_366"
+pathResults="../../results/whole_genome_alignments/avian_366/"
 
 ###############################################################
 

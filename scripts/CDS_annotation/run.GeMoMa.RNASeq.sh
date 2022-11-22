@@ -85,7 +85,7 @@ export prefix=`basename ${refGenome} .fa.gz`
 if [ -e ${pathSourceGenomes}/${prefix}.clean.fa ];then
     echo "clean reference genome sequence already there"
 else
-     perl ${pathScripts}/cleanup.fasta.names.pl --pathInput=${pathSourceGenomes}/${prefix}.fa.gz --pathOutput=${pathSourceGenomes}/${prefix}.clean.fa 
+     perl ${pathScripts}/cleanup.fasta.pl --pathInput=${pathSourceGenomes}/${prefix}.fa.gz --pathOutput=${pathSourceGenomes}/${prefix}.clean.fa 
 fi
 
 export pathRefGenome=${pathSourceGenomes}/${prefix}.clean.fa 

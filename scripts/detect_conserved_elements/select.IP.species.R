@@ -1,6 +1,6 @@
 ###############################################################
 
-pathResults="../../results/whole_genome_alignments/avian_366/"
+pathResults="../../results/whole_genome_alignments/"
 
 ###############################################################
 
@@ -8,7 +8,7 @@ library(ape)
 
 ###############################################################
 
-tree=read.tree(file=paste(pathResults, "Birds366_tree.txt",sep=""))
+tree=read.tree(file=paste(pathResults, "avian_366/Birds366_tree.txt", sep=""))
 species=tree$tip.label
 
 ###############################################################
@@ -18,5 +18,11 @@ withIP=c("Chauna_torquata", "Anser_cygnoid", "Cairina_moschata", "Asarcornis_scu
 ###############################################################
 
 print(paste(withIP, collapse=","))
+
+###############################################################
+
+tree.withIP=keep.tip(tree, withIP)
+
+write.tree(tree.withIP, paste(pathResults, "species_with_IP/tree.txt",sep=""))
 
 ###############################################################

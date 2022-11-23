@@ -2,9 +2,8 @@
 
 ## original script by Alexandre Laverré & Anamaria Necsulea
 
-export refsp=$1
-export dataset=$2
-export cluster=$3
+export dataset=$1
+export cluster=$2
 
 ######################################################################
 

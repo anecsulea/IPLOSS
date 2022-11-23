@@ -28,7 +28,7 @@ cp ${pathAln}/${firstfile} ${pathAln}/${alnprefix}_macro_chromosomes.maf
 for chr in {2..8}
 do
     if [ -e ${pathAln}/${alnprefix}_${chr}.maf ]; then
-	grep -v "#" ${pathAln}/${alnprefix}_${chr}.maf | sed '1d' >> ${pathHAL}/${alnprefix}_macro_chromosomes.maf
+	grep -v "#" ${pathAln}/${alnprefix}_${chr}.maf | sed '1d' >> ${pathAln}/${alnprefix}_macro_chromosomes.maf
     else
 	echo "cannot find file "${pathAln}/${alnprefix}_${chr}.maf 
     fi
@@ -38,12 +38,12 @@ done
 
 export firstfile="${alnprefix}_chr9.maf"
 
-cp ${pathAln}/${firstfile} ${pathHAL}/${alnprefix}_micro_chromosomes.maf
+cp ${pathAln}/${firstfile} ${pathAln}/${alnprefix}_micro_chromosomes.maf
 
 for chr in {10..29}
 do
     if [ -e ${pathAln}/${alnprefix}_${chr}.maf ]; then
-	grep -v "#" ${pathAln}/${alnprefix}_${chr}.maf | sed '1d' >> ${pathHAL}/${alnprefix}_micro_chromosomes.maf
+	grep -v "#" ${pathAln}/${alnprefix}_${chr}.maf | sed '1d' >> ${pathAln}/${alnprefix}_micro_chromosomes.maf
     else
 	echo "cannot find file "${pathAln}/${alnprefix}_${chr}.maf 
     fi
@@ -53,7 +53,7 @@ done
 
 export firstfile="${alnprefix}_chrZ.maf"
 
-cp ${pathAln}/${firstfile} ${pathHAL}/${alnprefix}_sex_chromosomes.maf
+cp ${pathAln}/${firstfile} ${pathAln}/${alnprefix}_sex_chromosomes.maf
 
 ## no W chromosome
 
@@ -61,12 +61,12 @@ cp ${pathAln}/${firstfile} ${pathHAL}/${alnprefix}_sex_chromosomes.maf
 
 export firstfile="${alnprefix}_small.maf"
 
-cp ${pathAln}/${firstfile} ${pathHAL}/${alnprefix}_scaffolds.maf
+cp ${pathAln}/${firstfile} ${pathAln}/${alnprefix}_scaffolds.maf
 
 for file in `ls ${pathAln} | grep PED | grep -v ${firstfile}`
 do
     if [ -e ${pathAln}/${file} ]; then
-	grep -v "#" ${pathAln}/${file} | sed '1d' >> ${pathHAL}/${alnprefix}_scaffolds.maf
+	grep -v "#" ${pathAln}/${file} | sed '1d' >> ${pathAln}/${alnprefix}_scaffolds.maf
     else
 	echo "cannot find file "${pathAln}/${file}
     fi

@@ -45,7 +45,7 @@ fi
 ####################################################################################
 
 if [ ${annot} = "EnsemblStringTie" ]; then
-    export pathGTF=${pathStringTie}/combined_annotations_StringTie_Ensembl.gtf
+    export pathGTF=${pathStringTie}/combined_annotations_StringTie_Ensembl_withTxInfo.gtf
 fi
 
 ####################################################################################
@@ -55,7 +55,9 @@ echo "     organism: \""${sp}"\"" >> ${pathIndexes}/config_${annot}.txt
 echo "     genome: [\""${annot}"\"]"  >> ${pathIndexes}/config_${annot}.txt
 echo "     input_fasta: [\""${pathGenome}/genome_ensembl${release}.fa"\"]"  >> ${pathIndexes}/config_${annot}.txt
 echo "     input_gtf: [\""${pathGTF}"\"]"  >> ${pathIndexes}/config_${annot}.txt
-echo "     non_nuclear_contigs: [\"MT\"]" >> ${pathIndexes}/config_${annot}.txt
+if [ ${sp} = "Chicken" ]; then
+    echo "     non_nuclear_contigs: [\"MT\"]" >> ${pathIndexes}/config_${annot}.txt
+fi
 echo "     input_motifs: \""${pathTFMotifs}/JASPAR2022_CORE_non-redundant_pfms_jaspar.txt"\"" >> ${pathIndexes}/config_${annot}.txt
 echo "}" >> ${pathIndexes}/config_${annot}.txt
 

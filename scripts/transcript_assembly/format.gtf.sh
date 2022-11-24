@@ -2,8 +2,7 @@
 
 export sp=$1
 export ref=$2
-export sample=$3
-export cluster=$4
+export cluster=$3
 
 #############################################################################
 
@@ -17,7 +16,7 @@ if [ ${cluster} = "pbil" ]; then
 fi
 
 export pathEnsembl=${path}/data/ensembl_annotations/${sp}
-export pathStringTieAssembly=${path}/results/stringtie_assembly/${sp}/reference_${ref}_${sample}
+export pathStringTieAssembly=${path}/results/stringtie_assembly/${sp}
 export pathScripts=${path}/scripts/transcript_assembly
 
 #############################################################################

@@ -98,7 +98,7 @@ if [ ${source} = "Reptiles_Ensembl103" ]||[ ${source} = "NCBI" ]; then
     export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep gff`
 
     if [ -z ${annotfile} ]; then
-	echo "cannot find reference annotation"
+	echo "cannot find reference annotation" ${part} ${annotfile}
 	exit
     fi
     
@@ -111,7 +111,7 @@ if [ ${source} = "Reptiles_Ensembl103_parts" ]||[ ${source} = "NCBI_parts" ]; th
     export annotfile=`ls ${pathSourceAnnotations} | grep ${ref}'\.' | grep part${part}.gff`
 
     if [ -z ${annotfile} ]; then
-	echo "cannot find reference annotation" ${annotfile}
+	echo "cannot find reference annotation" ${part} ${annotfile}
 	exit
     fi
 	
@@ -120,6 +120,13 @@ if [ ${source} = "Reptiles_Ensembl103_parts" ]||[ ${source} = "NCBI_parts" ]; th
 fi
 
 echo "reference annotation" ${pathRefAnnot}
+
+if [ -e ${pathRefAnnot} ]; then
+    echo "ok found ref annot"
+else
+    echo "cannot find path "${pathRefAnnot}
+    exit
+fi
 
 #########################################################################
 

@@ -3,8 +3,9 @@
 ## original script by Alexandre Laverré & Anamaria Necsulea
 
 export dataset=$1
-export cluster=$2
-export nthreads=$3
+export chr=$2
+export cluster=$3
+export nthreads=$4
 
 #########################################################################
 
@@ -28,6 +29,11 @@ fi
 
 #########################################################################
 
-docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
+if [ ${chr} = "all" ]; then
+    docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
+else
+    docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln_${chr}.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --refSequence ${chr} --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
+fi
+
 
 #########################################################################

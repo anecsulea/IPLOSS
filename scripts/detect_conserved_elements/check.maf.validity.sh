@@ -21,7 +21,7 @@ export pathScripts=${path}/scripts/detect_conserved_elements
 for file in `ls ${pathAln} | grep maf`
 do
     echo ${file} 
-    perl ${pathScripts}/check.maf.validity.pl --pathMAF=${pathaln}/${file} 
+    perl ${pathScripts}/check.maf.validity.pl --pathMAF=${pathAln}/${file} 
 done
 
 #########################################################################

@@ -12,11 +12,11 @@ if [ ${cluster} = "pbil" ]; then
 fi
 
 if [ ${cluster} = "in2p3" ]; then
-    export path=/sps/biometr/necsulea/HelmetedCurassowGenome
+    export path=/sps/biometr/necsulea/IPLOSS
 fi
 
 if [ ${cluster} = "cloud" ]; then
-    export path=/ifb/data/mydatalocal/HelmetedCurassowGenome
+    export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
 export release=103

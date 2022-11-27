@@ -73,7 +73,6 @@ do
 	    echo "cannot find results for "${part}", but there are no CDS"
 	else
 	    echo "cannot find results for "${part}", there are "${nbcds}" CDS"
-	    exit
 	fi
     fi
 done

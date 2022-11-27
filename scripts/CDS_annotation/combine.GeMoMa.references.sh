@@ -16,7 +16,7 @@ if [ ${cluster} = "in2p3" ]; then
 fi
 
 if [ ${cluster} = "cloud" ]; then
-    export path=/ifb/data/mydatalocal/HelmetedCurassowGenome
+    export path=/ifb/data/mydatalocal/IPLOSS
     export pathTools=/ifb/data/mydatalocal/Tools
 fi
 

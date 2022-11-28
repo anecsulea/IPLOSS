@@ -23,18 +23,35 @@ export alnprefix="aln"
 
 ######################################################################
 
-for chrtype in macro_chromosomes micro_chromosomes sex_chromosomes all_chromosomes
+for chrmaf in {1..8}
 do
-    export chrmaf=${chrtype}
-
-    if [ ${chrtype} = "all_chromosomes" ]; then
-	export chrmaf="scaffolds"
-    fi
+    export chrtype="macro_chromosomes"
     
-    if [ ! -e ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod ]; then
-	echo  ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod "is missing"
-	exit
+    if [ -e ${pathResults}/most_conserved_${chrmaf}.bed ]; then
+	echo "### ${chrmaf} already done ! ###"
+    else
+	phastCons --target-coverage 0.25 --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
     fi
+done
+
+######################################################################
+
+for chrmaf in {9..16} {18..29}
+do
+    export chrtype="micro_chromosomes"
+    
+    if [ -e ${pathResults}/most_conserved_${chrmaf}.bed ]; then
+	echo "### ${chrmaf} already done ! ###"
+    else
+	phastCons --target-coverage 0.25 --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
+    fi
+done
+
+######################################################################
+
+for chrmaf in Z
+do
+    export chrtype="sex_chromosomes"
     
     if [ -e ${pathResults}/most_conserved_${chrmaf}.bed ]; then
 	echo "### ${chrmaf} already done ! ###"

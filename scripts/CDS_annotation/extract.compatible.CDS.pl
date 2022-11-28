@@ -592,7 +592,7 @@ print "Writing output...\n";
 
 open(my $output, ">".$parameters{"pathOutput"});
 
-print $output "TranscriptID1\tGeneID1\tTranscriptID2\tGeneID2\n";
+print $output "CDS\tGeneID1\tCDSLength\tNbIntronsCDS\tTranscriptID\tGeneID2\tTranscriptLength\tOverlapLength\tNbIntronsTranscript\tNbCommonIntrons\tAbsentIntronsOverlapCDS\n";
 
 foreach my $tx1 (keys %txgene1){
     my $gene1=$txgene1{$tx1};
@@ -601,65 +601,59 @@ foreach my $tx1 (keys %txgene1){
     my $end1=$txcoords1{$tx1}{"end"};
 
     if(exists $txoverlap12{$tx1}){
+
 	foreach my $tx2 (keys %{$txoverlap12{$tx1}}){
 	    my $gene2=$txgene2{$tx2};
 	    my $len2=$txlen2{$tx2};
 	    
 	    my $lenov=$txoverlap12{$tx1}{$tx2};
-
-	    if($len1 == $lenov){
-		## this transcript overlaps entirely with tx2
-
-		my $okint="yes";
+	    
+	    my $nbint1=keys %{$introns1{$tx1}};
+	    my $nbint2=keys %{$introns2{$tx2}};
+	    
+	    my $nbcommonintrons=0;
+	    
+	    if(exists $introns1{$tx1}){
+		if(exists $introns2{$tx2}){
+		    foreach my $in1 (keys %{$introns1{$tx1}}){
+			if(exists $introns2{$tx2}{$in1}){
+			    $nbcommonintrons++;
+			}
+		    }
+		}
 		
-		if(exists $introns1{$tx1}){
-		    my $allin1=1; ## all introns from CDS are in tx2
-		    if(exists $introns2{$tx2}){
-			foreach my $in1 (keys %{$introns1{$tx1}}){
-			    if(!exists $introns2{$tx2}{$in1}){
-				$allin1=0;
-				last;
-			    }
+		## check which introns from tx2 are not in tx1
+		
+		my %absentintrons;
+		
+		if(exists $introns2{$tx2}){
+		    foreach my $in2 (keys %{$introns2{$tx2}}){
+			if(!exists $introns1{$tx1}{$in2}){
+			    $absentintrons{$in2}=1;
 			}
 		    }
-
-		    if($allin1==0){
-			$okint="no";
-		    }
+		}
+		
+		my %absentoverlap;
+		
+		foreach my $in2 (keys %absentintrons){
+		    my @s=split("-", $in2);
+		    my $startint2=$s[0]+0;
+		    my $endint2=$s[1]+0;
 		    
-		    if($okint eq "yes"){
-			## check which introns from tx2 are not in tx1
-			
-			my %absentintrons;
-			
-			if(exists $introns2{$tx2}){
-			    foreach my $in2 (keys %{$introns2{$tx2}}){
-				if(!exists $introns1{$tx1}{$in2}){
-				    $absentintrons{$in2}=1;
-				}
-			    }
-			}
-			
-			foreach my $in2 (keys %absentintrons){
-			    my @s=split("-", $in2);
-			    my $startint2=$s[0]+0;
-			    my $endint2=$s[1]+0;
-
-			    my $M=max($start1, $startint2);
-			    my $m=min($end1, $endint2);
-			    
-			    ## if intron from tx2 is not in CDS, then coordinates should not overlap with CDS
-			    if($M<=$m){
-				$okint="no";
-				last;
-			    }
-			}
+		    my $M=max($start1, $startint2);
+		    my $m=min($end1, $endint2);
+		    
+		    ## if intron from tx2 is not in CDS, then coordinates should not overlap with CDS
+		    if($M<=$m){
+			$absentoverlap{$in2}=1;
 		    }
 		}
-
-		if($okint=="yes"){
-		    print $output $tx1."\t".$gene1."\t".$tx2."\t".$gene2."\n";
-		}
+		
+		my $nbabsov=keys %absentoverlap;
+		
+		print $output $tx1."\t".$gene1."\t".$len1."\t".$nbint1."\t".$tx2."\t".$gene2."\t".$len2."\t".$lenov."\t".$nbint2."\t".$nbcommonintrons."\t".$nbabsov."\n";
+		
 	    }
 	}
     } 

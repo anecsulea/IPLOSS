@@ -20,11 +20,14 @@ export pathResults=${path}/results/conserved_elements/${dataset}/mod/
 for chr in {1..29} Z W 
 do
     export alnprefix="aln"
-    
-    if [ -e ${pathResults}/phyloFit_nonconserved_4d-sites_${chr}.mod ]; then
-	echo "already done"
-    else
-	phyloFit --tree ${pathAln}/tree.txt --msa-format SS --out-root ${pathResults}/phyloFit_nonconserved_4d-sites_${chr} ${pathSites}/${alnprefix}_${chr}_4d-sites.ss
+
+    if [ -e ${pathSites}/${alnprefix}_${chr}_4d-sites.ss ]; then
+	
+	if [ -e ${pathResults}/phyloFit_nonconserved_4d-sites_${chr}.mod ]; then
+	    echo "already done"
+	else
+	    phyloFit --tree ${pathAln}/tree.txt --msa-format SS --out-root ${pathResults}/phyloFit_nonconserved_4d-sites_${chr} ${pathSites}/${alnprefix}_${chr}_4d-sites.ss
+	fi
     fi
 done
 

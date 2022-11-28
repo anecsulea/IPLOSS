@@ -11,7 +11,7 @@ if [ ${cluster} = "cloud" ]; then
     export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
-export pathResults=${path}/results/conserved_elements/${dataset}/phyloFit/
+export pathResults=${path}/results/conserved_elements/${dataset}/mod/
 
 ######################################################################
 

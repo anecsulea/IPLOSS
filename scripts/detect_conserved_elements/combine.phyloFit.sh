@@ -21,7 +21,7 @@ export pathsNonConserved=""
 
 for chr in {1..8}
 do
-    export pathsNonConserved="${pathResults}/phyloFit_nonconserved_${chr}_4d-sites.mod",${pathsNonConserved} 
+    export pathsNonConserved="${pathResults}/phyloFit_nonconserved_4d-sites_${chr}.mod",${pathsNonConserved} 
 done
 
 phyloBoot --read-mods ${pathsNonConserved} --output-average ${pathResults}/phyloFit_nonconserved_4d-sites_avg_macro_chromosomes.mod
@@ -34,7 +34,7 @@ export pathsNonConserved=""
 
 for chr in {9..16} {18..29} 
 do
-    export pathsNonConserved="${pathResults}/phyloFit_nonconserved_${chr}_4d-sites.mod",${pathsNonConserved} 
+    export pathsNonConserved="${pathResults}/phyloFit_nonconserved_4d-sites_${chr}.mod",${pathsNonConserved} 
 done
 
 phyloBoot --read-mods ${pathsNonConserved} --output-average ${pathResults}/phyloFit_nonconserved_4d-sites_avg_micro_chromosomes.mod
@@ -43,7 +43,7 @@ phyloBoot --read-mods ${pathsNonConserved} --output-average ${pathResults}/phylo
 
 ## sex-chromosomes (simple cp for phast pipeline homogenisation)
 
-cp ${pathResults}/phyloFit_nonconserved_chrZ_4d-sites.mod ${pathResults}/phyloFit_nonconserved_4d-sites_avg_sex_chromosomes.mod
+cp ${pathResults}/phyloFit_nonconserved_4d-sites_Z.mod ${pathResults}/phyloFit_nonconserved_4d-sites_avg_sex_chromosomes.mod
 
 ######################################################################
 
@@ -53,7 +53,7 @@ export pathsNonConserved=""
 
 for chr in {1..16} {18..29} Z
 do
-    export pathsNonConserved="${pathResults}/phyloFit_nonconserved_${chr}_4d-sites.mod",${pathsNonConserved} 
+    export pathsNonConserved="${pathResults}/phyloFit_nonconserved_4d-sites_${chr}.mod",${pathsNonConserved} 
 done
 
 phyloBoot --read-mods ${pathsNonConserved} --output-average ${pathResults}/phyloFit_nonconserved_4d-sites_avg_all_chromosomes.mod

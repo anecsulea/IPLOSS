@@ -4,8 +4,9 @@
 
 export dataset=$1
 export chr=$2
-export cluster=$3
-export nthreads=$4
+export start=$3
+export cluster=$4
+export nthreads=$5
 
 #########################################################################
 
@@ -32,7 +33,7 @@ fi
 if [ ${chr} = "all" ]; then
     docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
 else
-    docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --refSequence ${chr} --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
+    docker run -v ${path}:/ifb/data/mydatalocal/IPLOSS --rm -t quay.io/comparative-genomics-toolkit/cactus:v1.3.0 hal2mafMP.py ${pathHAL}/366-avian.hal ${pathResults}/aln.maf  --targetGenomes ${targetGenomes} --refGenome Anas_platyrhynchos_platyrhynchos --refSequence ${chr} --start=${start} --numProc ${nthreads} --noDupes --splitBySequence --smallSize 100000
 fi
 
 

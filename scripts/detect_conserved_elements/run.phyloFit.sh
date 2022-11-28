@@ -17,6 +17,14 @@ export pathResults=${path}/results/conserved_elements/${dataset}/mod/
 
 ######################################################################
 
+if [ -e ${pathResults} ]; then
+    echo "output dir already there"
+else
+    mkdir -p ${pathResults}
+fi
+
+######################################################################
+
 for chr in {1..29} Z W 
 do
     export alnprefix="aln"

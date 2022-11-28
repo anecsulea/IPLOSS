@@ -36,7 +36,7 @@ done
 
 #########################################################################
 
-export firstfile="${alnprefix}_chr9.maf"
+export firstfile="${alnprefix}_9.maf"
 
 cp ${pathAln}/${firstfile} ${pathAln}/${alnprefix}_micro_chromosomes.maf
 
@@ -51,7 +51,7 @@ done
 
 #########################################################################
 
-export firstfile="${alnprefix}_chrZ.maf"
+export firstfile="${alnprefix}_Z.maf"
 
 cp ${pathAln}/${firstfile} ${pathAln}/${alnprefix}_sex_chromosomes.maf
 

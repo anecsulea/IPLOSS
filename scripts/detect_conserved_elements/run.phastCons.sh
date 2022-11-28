@@ -3,7 +3,8 @@
 ## original script by Alexandre Laverré & Anamaria Necsulea
 
 export dataset=$1
-export cluster=$2
+export coverage=$2
+export cluster=$3
 
 ######################################################################
 
@@ -13,7 +14,7 @@ fi
 
 export pathAln=${path}/results/whole_genome_alignments/${dataset}/ 
 export pathMod=${path}/results/conserved_elements/${dataset}/mod
-export pathResults=${path}/results/conserved_elements/${dataset}/phastCons
+export pathResults=${path}/results/conserved_elements/${dataset}/phastCons_coverage${coverage}
 
 if [ ! -d ${pathResults} ]; then
     mkdir -p ${pathResults}
@@ -30,7 +31,7 @@ do
     if [ -e ${pathResults}/most_conserved_${chrmaf}.bed ]; then
 	echo "### ${chrmaf} already done ! ###"
     else
-	phastCons --target-coverage 0.25 --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
+	phastCons --target-coverage ${coverage} --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
     fi
 done
 
@@ -43,7 +44,7 @@ do
     if [ -e ${pathResults}/most_conserved_${chrmaf}.bed ]; then
 	echo "### ${chrmaf} already done ! ###"
     else
-	phastCons --target-coverage 0.25 --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
+	phastCons --target-coverage ${coverage} --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
     fi
 done
 
@@ -56,7 +57,7 @@ do
     if [ -e ${pathResults}/most_conserved_${chrmaf}.bed ]; then
 	echo "### ${chrmaf} already done ! ###"
     else
-	phastCons --target-coverage 0.25 --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
+	phastCons --target-coverage ${coverage} --expected-length 50 --rho 0.2 --estimate-rho ${pathResults}/rho_${chrmaf} --most-conserved ${pathResults}/most_conserved_${chrmaf}.bed --score ${pathAln}/${alnprefix}_${chrmaf}.maf ${pathMod}/phyloFit_nonconserved_4d-sites_avg_${chrtype}.mod > ${pathResults}/phastcons_scores_${chrmaf}.wig 
     fi
 done
 

@@ -17,6 +17,7 @@ fi
 
 export pathGenomes=${path}/data/genome_sequences/${sp}
 export pathResults=${path}/results/snATACSeq_indexes/${sp}
+export pathCDSannotation=${path}/scripts/CDS_annotation
 
 export release=103
 
@@ -57,10 +58,18 @@ fi
 
 ####################################################################################
 
+if [ -e ${pathGenomes}/genome_ensembl${release}.clean.fa ]; then
+    echo "clean fasta file already there"
+else
+    perl ${pathCDSannotation}/cleanup.fasta.pl --pathInput=${pathGenomes}/genome_ensembl${release}.fa --pathOutput=${pathGenomes}/genome_ensembl${release}.clean.fa
+fi
+
+####################################################################################
+
 if [ -e ${pathResults}/genome_ensembl${release}_chromosomes.fa ]; then
     echo "filtered chromosomes already there, not doing anything"
 else
-    seqfilter -i ${pathGenomes}/genome_ensembl${release}.fa -l ${pathResults}/chromosomes.txt -o ${pathResults}/genome_ensembl${release}_chromosomes.fa
+    seqfilter -i ${pathGenomes}/genome_ensembl${release}.clean.fa -l ${pathResults}/chromosomes.txt -o ${pathResults}/genome_ensembl${release}_chromosomes.fa
 fi
 
 ####################################################################################
@@ -90,14 +99,17 @@ fi
 echo "Package: BSgenome.${abbr}"  > ${pathResults}/seed_file.txt
 echo "Title: Full genome of ${latinname} for scATAC" >> ${pathResults}/seed_file.txt
 echo "Description: ${latinname} genome modified under 10x" >> ${pathResults}/seed_file.txt
-echo "Version: 1.0.0">> ${pathResults}/seed_file.txt
-echo "organism: ${latinname}">> ${pathResults}/seed_file.txt
-echo "organism_biocview: ${biocview}">> ${pathResults}/seed_file.txt
-echo "BSgenomeObjname: ${abbr}">> ${pathResults}/seed_file.txt
-echo "Author: Menghan Wang">> ${pathResults}/seed_file.txt
-echo "common_name: ${sp}">> ${pathResults}/seed_file.txt
-echo "provider: ensembl">> ${pathResults}/seed_file.txt
-echo "provider_version: ${release}">> ${pathResults}/seed_file.txt
+echo "Version: 1.0.0" >> ${pathResults}/seed_file.txt
+echo "organism: ${latinname}" >> ${pathResults}/seed_file.txt
+echo "organism_biocview: ${biocview}" >> ${pathResults}/seed_file.txt
+echo "BSgenomeObjname: ${abbr}" >> ${pathResults}/seed_file.txt
+echo "Author: Menghan Wang" >> ${pathResults}/seed_file.txt
+echo "common_name: ${sp}" >> ${pathResults}/seed_file.txt
+echo "provider: ensembl" >> ${pathResults}/seed_file.txt
+
+## not the actual genome for duck but we need a workaround for BSgenome
+echo "provider_version: GRCg6a" >> ${pathResults}/seed_file.txt
+
 echo "release_date: November.2022" >> ${pathResults}/seed_file.txt
 echo "seqs_srcdir: ${pathResults}" >> ${pathResults}/seed_file.txt
 echo "seqfile_name: genome_ensembl${release}_chromosomes.2bit" >> ${pathResults}/seed_file.txt

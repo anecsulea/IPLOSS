@@ -61,7 +61,7 @@ if [ ${dataset} = "GeMoMa_pairwise" ]; then
 		python ${pathTools}/primary_transcript.py ${pathAnnot}/${file}
 	    fi
 	    
-	    ln -s ${pathEnsemblProteins}/primary_transcripts/${file} ${pathResults}/${sp}.fa
+	    ln -s ${pathAnnot}/primary_transcripts/${file} ${pathResults}/${sp}.fa
 	    
 	else
 	    echo "cannot find protein sequences! "${pathAnnot}/${file} 

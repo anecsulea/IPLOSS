@@ -1,10 +1,11 @@
 #!/bin/bash
 
-export M=$1
-export alnmethod=$2
-export treemethod=$3  ## tree inference method
-export cluster=$4
-export threads=$5
+export dataset=$1
+export M=$2
+export alnmethod=$3
+export treemethod=$4  ## tree inference method
+export cluster=$5
+export threads=$6
 
 ##########################################################################
 
@@ -16,7 +17,7 @@ if [ ${cluster} = "pbil" ]; then
     export path=/beegfs/data/${USER}/IPLOSS
 fi
 
-export pathResults=${path}/results/gene_families/OrthoFinder
+export pathResults=${path}/results/gene_families/OrthoFinder_${dataset}
 export pathScripts=${path}/scripts/coding_gene_families
 
 ##########################################################################

@@ -20,8 +20,11 @@ if [ ${cluster} = "cloud" ]; then
     export pathTools=/ifb/data/mydatalocal/Tools
 fi
 
+export release=103
+export pathGenomeSequence=${path}/data/genome_sequences/${sp}/genome_ensembl${release}.fa
 export pathGeMoMa=${path}/results/CDS_annotation/${sp}/GeMoMa/combined
 export pathStringTie=${path}/results/stringtie_assembly/${sp}
+export pathProteinSequences=${path}/data/protein_sequences/Ensembl${release}
 export pathScripts=${path}/scripts/CDS_annotation
 
 #########################################################################
@@ -34,6 +37,24 @@ fi
 
 #########################################################################
 
-perl ${pathScripts}/extract.compatible.CDS.pl --pathCDSAnnotation=${pathGeMoMa}/filtered_predictions.gtf --pathTranscriptAnnotation=${pathStringTie}/combined_annotations_StringTie_Ensembl.gtf --pathOutput=${pathGeMoMa}/compatible_CDS.txt
+if [ -e ${pathGeMoMa}/filtered_predictions.faa ]; then
+    echo "Fasta file for proteins already there"
+else
+    gffread ${pathGeMoMa}/filtered_predictions.gff -g ${pathGenomeSequence} -y ${pathGeMoMa}/filtered_predictions.faa
+fi
+
+#########################################################################
+
+if [ ${sp} == "Chicken" ]; then
+    export pathKnownProteins=${pathProteinSequences}/Gallus_gallus.GRCg6a.pep.all.fa
+fi
+
+if [ ${sp} == "Duck" ]; then
+    export pathKnownProteins=${pathProteinSequences}/Anas_platyrhynchos_platyrhynchos.CAU_duck1.0.pep.all.fa 
+fi
+
+#########################################################################
+
+perl ${pathScripts}/extract.compatible.CDS.pl --pathNewCDSAnnotation=${pathGeMoMa}/filtered_predictions.gtf --pathTranscriptAnnotation=${pathStringTie}/combined_annotations_StringTie_Ensembl.gtf --minFractionOverlap=0.5 --pathKnownProteins=${pathKnownProteins} --pathNewProteins=${pathGeMoMa}/filtered_predictions.faa --pathOutputProteins=${pathGeMoMa}/combined_protein_sequences.faa --pathOutputOverlap=${pathGeMoMa}/compatible_CDS.txt
 
 #########################################################################

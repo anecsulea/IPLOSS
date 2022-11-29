@@ -430,6 +430,99 @@ sub analyzeTranscriptOverlap{
     }
 }
 
+
+#######################################################################
+
+sub readFasta{
+    my $path=$_[0];
+    my $reffasta=$_[1];
+    my $txgenes=$_[2];
+
+    my @s=split("\\.",$path);
+    my $ext=$s[-1];
+
+    my $input;
+
+    if($ext eq "gz"){
+	open($input,"zcat $path |");
+    }
+    else{
+	open($input, $path);
+    }
+
+    my $line=<$input>;
+
+    while($line){
+	my $b=substr $line,0,1;
+
+	if($b eq ">"){
+	    chomp $line;
+	    my $info=substr $line,1;
+	    
+	    my @s=split(" ",$info);
+	    my $id=$s[0];
+
+	    my $geneid="NA";
+
+	    foreach my $item (@s){
+                my $prefix1=substr $item, 0, 5;
+
+                if($prefix1 eq "gene:"){
+                    my @t=split(":", $item);
+                    $geneid=$t[1];
+                    last;
+                }
+            }
+
+	    if($geneid ne "NA"){
+		$txgenes->{$id}=$geneid;
+	    }
+
+	    $reffasta->{$id}="";
+
+	    $line=<$input>;
+	    $b=substr $line,0,1;
+
+	    while($line && !($b eq ">")){
+		chomp $line;
+		$reffasta->{$id}.=$line;
+		$line=<$input>;
+		$b=substr $line,0,1;
+	    }
+	}
+    }
+
+    close($input);
+}
+
+##########################################################################
+
+sub writeSequence{
+    my $sequence=$_[0];
+    my $name=$_[1];
+    my $output=$_[2];
+
+    my $n=length $sequence;
+
+    print $output ">".$name."\n";
+
+    my $i=0;
+
+    while($i<($n-60)){
+
+        my $subseq=substr $sequence,$i,60;
+
+        print $output $subseq ."\n";
+
+        $i+=60;
+    }
+
+    if($i<$n){
+        my $subseq=substr $sequence,$i;
+        print $output $subseq ."\n";
+    }
+}
+
 ##########################################################################
 
 sub printHelp{
@@ -455,11 +548,15 @@ sub printHelp{
 ## parameters
 
 my %parameters;
-$parameters{"pathCDSAnnotation"}="NA";
+$parameters{"pathNewCDSAnnotation"}="NA";
 $parameters{"pathTranscriptAnnotation"}="NA";
-$parameters{"pathOutput"}="NA";
+$parameters{"minFractionOverlap"}="NA";
+$parameters{"pathOutputOverlap"}="NA";
+$parameters{"pathNewProteins"}="NA";
+$parameters{"pathKnownProteins"}="NA";
+$parameters{"pathOutputProteins"}="NA";
 
-my @defaultpars=("pathCDSAnnotation", "pathTranscriptAnnotation", "pathOutput");
+my @defaultpars=("pathNewCDSAnnotation",  "pathTranscriptAnnotation", "minFractionOverlap", "pathOutputOverlap", "pathNewProteins", "pathKnownProteins", "pathOutputProteins");
 
 
 my %defaultvalues;
@@ -514,7 +611,7 @@ my %genetx1;
 my %txgene1;
 my %txexon1;
 
-readGTF($parameters{"pathCDSAnnotation"}, "CDS", \%exoncoords1, \%exontx1, \%genetx1, \%txgene1, \%txexon1);
+readGTF($parameters{"pathNewCDSAnnotation"}, "CDS", \%exoncoords1, \%exontx1, \%genetx1, \%txgene1, \%txexon1);
 
 my $nbexons=keys %exoncoords1;
 my $nbtx=keys %txgene1;
@@ -527,7 +624,7 @@ computeTranscriptInfo(\%txexon1, \%exoncoords1, \%txlen1, \%txcoords1);
 my %introns1;
 extractIntrons(\%txexon1,  \%exoncoords1, \%introns1);
   
-print "Found ".$nbexons." exons, ".$nbtx." transcripts and ".$nbg." genes in first set of annotations.\n";
+print "Found ".$nbexons." exons, ".$nbtx." transcripts and ".$nbg." genes in first set of annotations (new CDS).\n";
 
 ##############################################################
 
@@ -552,7 +649,7 @@ computeTranscriptInfo(\%txexon2, \%exoncoords2, \%txlen2, \%txcoords2);
 my %introns2;
 extractIntrons(\%txexon2,  \%exoncoords2, \%introns2);
 
-print "Found ".$nbexons." exons, ".$nbtx." transcripts and ".$nbg." genes in second set of annotations.\n";
+print "Found ".$nbexons." exons, ".$nbtx." transcripts and ".$nbg." genes in second set of annotations (transcript annotations).\n";
 
 ##############################################################
 
@@ -590,9 +687,15 @@ print "Done.\n";
 
 print "Writing output...\n";
 
-open(my $output, ">".$parameters{"pathOutput"});
+open(my $output, ">".$parameters{"pathOutputOverlap"});
 
 print $output "CDS\tGeneID1\tCDSLength\tNbIntronsCDS\tTranscriptID\tGeneID2\tTranscriptLength\tOverlapLength\tNbIntronsTranscript\tNbCommonIntrons\tAbsentIntronsOverlapCDS\n";
+
+my %acceptablecds;
+
+my $minfrov=$parameters{"minFractionOverlap"}+0.0;
+
+print "We accept CDS if they overlap on at least ".$minfrov." of their length with annotated transcripts.\n";
 
 foreach my $tx1 (keys %txgene1){
     my $gene1=$txgene1{$tx1};
@@ -607,6 +710,16 @@ foreach my $tx1 (keys %txgene1){
 	    my $len2=$txlen2{$tx2};
 	    
 	    my $lenov=$txoverlap12{$tx1}{$tx2};
+
+	    my $frov=($lenov+0.0)/($len1+0.0);
+
+	    if($frov>=$minfrov){
+		if(exists $acceptablecds{$tx1}){
+		    $acceptablecds{$tx1}{$gene2}=1;
+		} else{
+		    $acceptablecds{$tx1}={$gene2=>1};
+		}
+	    }
 	    
 	    my $nbint1=keys %{$introns1{$tx1}};
 	    my $nbint2=keys %{$introns2{$tx2}};
@@ -663,4 +776,103 @@ close($output);
 
 print "Done.\n";
 
+my $nbacc=keys %acceptablecds;
+
+print "Found ".$nbacc." CDS that overlapped on at least ".$minfrov." of their length with an annotated transcript.\n";
+
 ##############################################################
+
+print "Checking if the CDS could be attributed to a single gene.\n";
+
+my %filtered;
+
+foreach my $tx (keys %acceptablecds){
+    my @genes=keys %{$acceptablecds{$tx}};
+
+    if(@genes==1){
+	my $gene=$genes[0];
+	
+	$filtered{$tx}=$gene;
+    }
+}
+
+my $nbfiltered=keys %filtered;
+
+print "Kept ".$nbfiltered." CDS.\n";
+
+print "Done.\n";
+
+##############################################################
+
+print "Reading protein sequences...\n";
+
+my %knownproteins;
+my %knownprotgene;
+
+readFasta($parameters{"pathKnownProteins"}, \%knownproteins, \%knownprotgene);
+
+my %newproteins;
+my %newprotgene;
+
+readFasta($parameters{"pathNewProteins"}, \%newproteins, \%newprotgene);
+
+print "Done.\n";
+
+##############################################################
+
+print "Writing combined protein sequences...\n";
+
+open(my $output, ">".$parameters{"pathOutputProteins"});
+
+my $censoredX=0;
+
+foreach my $id (keys %knownproteins){
+    if(exists $knownprotgene{$id}){
+	my @s=split("\\.", $knownprotgene{$id});
+	my $gene=$s[0];
+
+	my $seq=$knownproteins{$id};
+	my $name=$id." gene:".$gene;
+
+	my $nbX = ($seq =~ tr/X//);
+
+	if($nbX==0){
+	    writeSequence($seq, $name, $output);
+	} else{
+	    $censoredX++;
+	}
+    } else{
+	print "Weird! cannot find gene id for ".$id."\n";
+	exit(1);
+    }
+}
+
+print "Discarded ".$censoredX." sequences with Xs from known proteins.\n";
+
+$censoredX=0;
+
+foreach my $id (keys %newproteins){
+    if(exists $filtered{$id}){
+	my $gene=$filtered{$id};
+
+	my $seq=$newproteins{$id};
+	my $name=$id." gene:".$gene;
+	
+	my $nbX = ($seq =~ tr/X//);
+
+	if($nbX==0){
+	    writeSequence($seq, $name, $output);
+	} else{
+	    $censoredX++;
+	}
+    }
+}
+
+print "Discarded ".$censoredX." sequences with Xs from new proteins.\n";
+
+close($output);
+
+print "Done.\n";
+
+##############################################################
+

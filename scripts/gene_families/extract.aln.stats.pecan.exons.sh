@@ -15,8 +15,8 @@ if [ ${cluster} = "cloud" ]; then
     export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
-export pathResults=${path}/results/ortho_genes
-export pathScripts=${path}/scripts/detect_ortho_genes
+export pathResults=${path}/results/liftOver_gene_families
+export pathScripts=${path}/scripts/gene_families
 
 export release=103
 

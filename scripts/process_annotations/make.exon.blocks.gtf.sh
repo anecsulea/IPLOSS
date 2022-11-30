@@ -16,7 +16,7 @@ fi
 
 export pathEnsembl=${path}/data/ensembl_annotations/${sp}
 export pathStringTie=${path}/results/stringtie_assembly/${sp}
-export pathScripts=${path}/scripts/splicing_analysis
+export pathScripts=${path}/scripts/process_annotations
 
 export ensrelease=103
 

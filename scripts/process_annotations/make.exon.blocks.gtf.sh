@@ -11,7 +11,7 @@ if [ ${cluster} = "pbil" ]; then
 fi
 
 if [ ${cluster} = "cloud" ]; then
-    export path=/ifv/data/mydatalocal/IPLOSS
+    export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
 export pathEnsembl=${path}/data/ensembl_annotations/${sp}

@@ -21,7 +21,7 @@ fi
 
 ####################################################################################
 
-export pathProjections=${path}/results/exon_projections
+export pathProjections=${path}/results/liftOver_gene_families
 export pathEnsembl=${path}/data/ensembl_annotations
 export pathStringTie=${path}/results/stringtie_assembly
 export pathScripts=${path}/scripts/gene_families

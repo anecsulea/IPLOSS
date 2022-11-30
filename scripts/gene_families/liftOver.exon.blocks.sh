@@ -20,7 +20,7 @@ fi
 export pathEnsembl=${path}/data/ensembl_annotations/${ref}
 export pathStringTie=${path}/results/stringtie_assembly/${ref}
 export pathGenomeAlignments=${path}/results/whole_genome_alignments/pairwise_Gallus_gallus_vs_Anas_platyrhynchos_platyrhynchos
-export pathResults=${path}/results/exon_projections
+export pathResults=${path}/results/liftOver_gene_families
 export pathScripts=${path}/scripts/gene_families
 
 export release=103

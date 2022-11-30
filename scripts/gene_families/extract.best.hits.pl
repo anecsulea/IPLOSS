@@ -423,13 +423,13 @@ print "Extracting reciprocal best hits and writing output...\n";
 
 open(my $output, ">".$parameters{"pathReciprocalBestHits"});
 
-print $output "ID.".$sp1."\tID.".$sp2."\n";
+print $output "ID.".$sp1."\tID.".$sp2."\tExonicLength.".$sp1."\tExonicLength.".$sp2."\tUngappedAlignedLength\tIdenticalLength\n";
 
 foreach my $id1 (keys %besthits12){
     my $id2=$besthits12{$id1};
 
     if(exists $besthits21{$id2} && $besthits21{$id2} eq $id1){
-	print $output $id1."\t".$id2."\n";
+	print $output $id1."\t".$id2."\t".$exoniclength1{$id1}."\t".$exoniclength2{$id2}."\t".$hits12{$id1}{$id2}{"ungapped"}."\t".$hits12{$id1}{$id2}{"identical"}."\n";
     }
 }
 

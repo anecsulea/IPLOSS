@@ -6,7 +6,7 @@ export cluster=$2
 #############################################################################
 
 if [ ${cluster} = "cloud" ]; then
-    export path=/home/ubuntu/data/mydatalocal/IPLOSS
+    export path=/ifb/data/mydatalocal/IPLOSS
 fi
 
 

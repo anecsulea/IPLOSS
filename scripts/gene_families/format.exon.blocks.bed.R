@@ -1,7 +1,7 @@
 ######################################################################
 
-pathStringTie="../../../results/stringtie_assembly/"
-pathEnsembl="../../../data/ensembl_annotations/"
+pathStringTie="../../results/stringtie_assembly/"
+pathEnsembl="../../data/ensembl_annotations/"
 
 release=103
 

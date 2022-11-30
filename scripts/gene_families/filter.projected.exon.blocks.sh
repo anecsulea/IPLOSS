@@ -42,8 +42,8 @@ fi
 
 ####################################################################################
 
-export minsizeratio=0.25
-export maxsizeratio=2
+export minsizeratio=0.75
+export maxsizeratio=1.33
 
 ####################################################################################
 
@@ -54,6 +54,6 @@ fi
 
 ####################################################################################
 
-perl ${pathScripts}/filter.projected.exon.blocks.pl --pathExonBlocks=${pathExons}/${prefix}.txt --pathProjectedExons=${pathProjections}/From${ref}_To${tg}_${prefix}.bed --collapse=250 --minSizeRatio=${minsizeratio} --maxSizeRatio=${maxsizeratio} --pathOutputFilteredExons=${pathProjections}/From${ref}_To${tg}_${prefix}_FilteredProjectedExons_Step1.txt  --pathOutputRejectedExons=${pathProjections}/From${ref}_To${tg}_${prefix}_RejectedProjectedExons_Step1.txt --pathOutputLog=${pathScripts}/logs/log_filter_exon_blocks_from${ref}_to${tg}.txt
+perl ${pathScripts}/filter.projected.exon.blocks.pl --pathExonBlocks=${pathExons}/${prefix}.txt --pathProjectedExons=${pathProjections}/From${ref}_To${tg}_${prefix}.bed --collapse=50 --minSizeRatio=${minsizeratio} --maxSizeRatio=${maxsizeratio} --pathOutputFilteredExons=${pathProjections}/From${ref}_To${tg}_${prefix}_FilteredProjectedExons_Step1.txt  --pathOutputRejectedExons=${pathProjections}/From${ref}_To${tg}_${prefix}_RejectedProjectedExons_Step1.txt --pathOutputLog=${pathScripts}/logs/log_filter_exon_blocks_from${ref}_to${tg}.txt
 
 ####################################################################################

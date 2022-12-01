@@ -112,7 +112,7 @@ for(sp in c("Chicken", "Duck")){
     
     load(paste(pathRNA, sp, "/", annot, "/", sampleRNA, "/seurat.object.after.clustering.RData",sep=""))
     
-    mtx.rna = atac.seurat
+    mtx.rna = filtered.seurat
     DefaultAssay(mtx.rna) <- 'RNA'
     
     ## get variable features

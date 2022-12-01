@@ -6,4 +6,5 @@ libharfbuzz-dev libfribidi-dev
 libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
 libgsl-dev
 libcairo2-dev
+libhdf5-dev
 

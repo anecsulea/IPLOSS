@@ -15,7 +15,6 @@ library(patchwork)
 library(gridExtra)
 library(GenomicRanges)
 library(future)
-library(pheatmap)
 
 set.seed(1234)
 
